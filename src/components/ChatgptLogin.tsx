@@ -1,19 +1,19 @@
 import tw, { css } from "twin.macro";
 import { chatgptIcon, linkIcon } from "../assets/icon";
-import useChatgptConfig from "../hooks/store/useChatgptToken";
+import { useChatgptConfigSelector } from "../hooks/store/useChatgptToken";
 import { baseInputCSS, blockCSS, descriptionCSS } from "../styles/styles";
 
 interface IChatgptLoginProps {}
 
 const ChatgptLogin = ({}: IChatgptLoginProps) => {
-  const setAccessToken = useChatgptConfig((state) => state.setAccessToken);
-  const accessToken = useChatgptConfig((state) => state.accessToken);
+  const { accessToken, setAccessToken, proxyURL, setProxyURL } =
+    useChatgptConfigSelector();
 
   return (
     <section css={[blockCSS, tw`gap-3`]}>
       <h2 css={[tw`text-2xl font-semibold flex flex-row gap-3 items-center`]}>
         <img css={[tw`w-8`]} src={chatgptIcon} />
-        ChatGpt Access Token
+        ChatGpt Config
       </h2>
 
       <p css={[descriptionCSS, tw`text-lg font-medium`]}>
@@ -21,25 +21,44 @@ const ChatgptLogin = ({}: IChatgptLoginProps) => {
       </p>
 
       <div css={[tw`flex flex-row`]}>
-        <a
-          href="https://platform.openai.com/account/api-keys"
-          css={[tw`text-sky-500 font-semibold flex flex-row gap-1`]}
-        >
-          <img src={linkIcon} css={[tw`w-5`]} />
-          여기
-        </a>
-        <p>에서 토큰을 조회할 수 있습니다.</p>
-      </div>
+        <div css={[tw`flex flex-col w-1/2 pr-5 gap-1`]}>
+          <h3 css={[tw`text-lg font-medium`]}>Access Token</h3>
+          <div css={[tw`flex flex-row`]}>
+            <a
+              href="https://platform.openai.com/account/api-keys"
+              css={[tw`text-sky-500 font-semibold flex flex-row gap-1`]}
+            >
+              <img src={linkIcon} css={[tw`w-5`]} />
+              여기
+            </a>
+            <p>에서 토큰을 조회할 수 있습니다.</p>
+          </div>
 
-      <input
-        value={accessToken}
-        placeholder="chatgpt access token"
-        css={[baseInputCSS]}
-        onChange={(e) => {
-          setAccessToken(e.target.value);
-        }}
-        type="password"
-      />
+          <input
+            value={accessToken}
+            placeholder="chatgpt access token"
+            css={[baseInputCSS, tw`mt-2 w-full`]}
+            onChange={(e) => {
+              setAccessToken(e.target.value);
+            }}
+            type="password"
+          />
+        </div>
+
+        <div css={[tw`border-l-[1px] border-gray-600 w-1/2 border-solid pl-5`]}>
+          <h3 css={[tw`text-lg font-medium`]}>(Optional) chatgpt proxy url</h3>
+          <p>chatgpt 프록시 서버를 사용하는 경우 URL을 입력해주세요.</p>
+
+          <input
+            value={proxyURL}
+            placeholder="chatgpt access token"
+            css={[baseInputCSS, tw`mt-3 w-full`]}
+            onChange={(e) => {
+              setProxyURL(e.target.value);
+            }}
+          />
+        </div>
+      </div>
     </section>
   );
 };
