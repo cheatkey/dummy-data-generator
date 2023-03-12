@@ -13,7 +13,7 @@ const Header = ({}: IHeaderProps) => {
       >
         Dummy data Generator
       </h1>
-      <p css={[descriptionCSS, tw`text-xl text-white`]}>
+      <p css={[descriptionCSS, tw`text-xl text-gray-100`]}>
         with chatgpt & faker.js
       </p>
     </header>
