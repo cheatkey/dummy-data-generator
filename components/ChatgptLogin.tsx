@@ -1,18 +1,19 @@
-import tw, { css } from "twin.macro";
-import { chatgptIcon, linkIcon } from "../assets/icon";
-import { useChatgptConfigSelector } from "../hooks/store/useChatgptToken";
-import { baseInputCSS, blockCSS, descriptionCSS } from "../styles/styles";
+import tw, { css } from 'twin.macro'
+import { chatgptIcon, linkIcon } from '../assets/icon'
+import { useChatgptConfigSelector } from '../hooks/store/useChatgptToken'
+import { baseInputCSS, blockCSS, descriptionCSS } from '../styles/styles'
+import Image from 'next/image'
 
 interface IChatgptLoginProps {}
 
 const ChatgptLogin = ({}: IChatgptLoginProps) => {
   const { accessToken, setAccessToken, proxyURL, setProxyURL } =
-    useChatgptConfigSelector();
+    useChatgptConfigSelector()
 
   return (
     <section css={[blockCSS, tw`gap-3`]}>
       <h2 css={[tw`text-2xl font-semibold flex flex-row gap-3 items-center`]}>
-        <img css={[tw`w-8`]} src={chatgptIcon} />
+        <Image css={[tw`w-8`]} src={chatgptIcon} alt={'chatgpt logo'} />
         ChatGpt Config
       </h2>
 
@@ -28,7 +29,7 @@ const ChatgptLogin = ({}: IChatgptLoginProps) => {
               href="https://platform.openai.com/account/api-keys"
               css={[tw`text-sky-500 font-semibold flex flex-row gap-1`]}
             >
-              <img src={linkIcon} css={[tw`w-5`]} />
+              <Image src={linkIcon} css={[tw`w-5`]} alt={'link icon'} />
               여기
             </a>
             <p>에서 토큰을 조회할 수 있습니다.</p>
@@ -38,8 +39,8 @@ const ChatgptLogin = ({}: IChatgptLoginProps) => {
             value={accessToken}
             placeholder="chatgpt access token"
             css={[baseInputCSS, tw`mt-2 w-full`]}
-            onChange={(e) => {
-              setAccessToken(e.target.value);
+            onChange={e => {
+              setAccessToken(e.target.value)
             }}
             type="password"
           />
@@ -53,14 +54,14 @@ const ChatgptLogin = ({}: IChatgptLoginProps) => {
             value={proxyURL}
             placeholder="chatgpt access token"
             css={[baseInputCSS, tw`mt-3 w-full`]}
-            onChange={(e) => {
-              setProxyURL(e.target.value);
+            onChange={e => {
+              setProxyURL(e.target.value)
             }}
           />
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ChatgptLogin;
+export default ChatgptLogin
