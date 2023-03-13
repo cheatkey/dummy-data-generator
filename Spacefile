@@ -1,2 +1,11 @@
-# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
+micros:
+
+- name: node-micro
+  src: src/node
+  engine: nodejs16
+  commands:
+  - npm run build
+    include:
+  - build
+    run: "node build/index.js"

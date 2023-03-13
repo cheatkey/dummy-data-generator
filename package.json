@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "dev:backend": "ts-node-esm backend/app.ts"
+    "dev:backend": "ts-node-esm backend/app.ts",
+    "build:backend": "tsc backend/app.ts",
+    "serve:backend": "node backend/app.js"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
