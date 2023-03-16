@@ -3,14 +3,28 @@ import { baseInputCSS, checkboxCSS, selectDarkStyle } from '../../styles/styles'
 import Select, { StylesConfig } from 'react-select'
 import { css } from '@emotion/react'
 import MetaDataCheckbox from '../modals/MetaDataCheckbox'
-import { useSchema } from '../../hooks/store/useSchema'
+import { useSchema, useSchemaSelector } from '../../hooks/store/useSchema'
+import { shallow } from 'zustand/shallow'
 
 interface ISchemaFormProps {
-  index: number
+  uuid: string
 }
 
-const SchemaForm = ({ index }: ISchemaFormProps) => {
-  const currentBlock = useSchema(state => state.blocks[index])
+const SchemaForm = ({ uuid }: ISchemaFormProps) => {
+  const currentBlock = useSchema(
+    state => state.blocks.find(item => item.uuid === uuid),
+    shallow,
+  )
+
+  const {
+    toggleIsArray,
+    toggleIsObject,
+    setKeyName,
+    setDescription,
+    setArrayLength,
+  } = useSchemaSelector()
+
+  if (!currentBlock) return <></>
 
   return (
     <div css={[tw`flex flex-col gap-2`]}>
@@ -20,19 +34,40 @@ const SchemaForm = ({ index }: ISchemaFormProps) => {
             placeholder="key name"
             css={[tw`bg-transparent outline-none font-semibold text-lg w-60`]}
             spellCheck={false}
+            onChange={event => {
+              setKeyName(uuid, event.target.value)
+            }}
           />
         </div>
 
         <div css={[tw`flex flex-row gap-2`]}>
           <MetaDataCheckbox
-            children={'isArray'}
+            name={'isArray'}
             value={currentBlock.isArray}
-            handleCheckboxClick={function (): void {}}
+            handleCheckboxClick={() => {
+              toggleIsArray(uuid)
+            }}
+            children={
+              currentBlock.isArray ? (
+                <input
+                  value={currentBlock.arrayLength}
+                  onChange={event => {
+                    const value = Number(event.target.value)
+                    if (Number.isSafeInteger(value)) {
+                      setArrayLength(uuid, value)
+                    }
+                  }}
+                  css={[baseInputCSS, tw`w-16`]}
+                />
+              ) : undefined
+            }
           />
           <MetaDataCheckbox
-            children={'isObject'}
+            name={'isObject'}
             value={currentBlock.isObject}
-            handleCheckboxClick={function (): void {}}
+            handleCheckboxClick={() => {
+              toggleIsObject(uuid)
+            }}
           />
         </div>
       </div>
@@ -43,6 +78,9 @@ const SchemaForm = ({ index }: ISchemaFormProps) => {
             css={[baseInputCSS, tw`w-full`]}
             placeholder={'field description'}
             spellCheck={false}
+            onChange={event => {
+              setDescription(uuid, event.target.value)
+            }}
           />
         </div>
       </div>
