@@ -36,7 +36,7 @@ const ApiKeySettingModal = ({}: IApiKeySettingModalProps) => {
     <Modal isOpen={showModal} style={customStyles} closeTimeoutMS={200}>
       <div
         css={[
-          tw`z-10 bg-dark-700 py-6 px-8 rounded-3xl shadow-xl flex flex-col gap-2 relative`,
+          tw`z-10 bg-dark-700 py-6 px-8 rounded-3xl shadow-xl flex flex-col gap-2 relative w-96`,
         ]}
       >
         <h1 css={[tw`text-gray-100 text-lg font-medium`]}>API key 설정</h1>
@@ -52,7 +52,7 @@ const ApiKeySettingModal = ({}: IApiKeySettingModalProps) => {
         <input
           value={apiKey}
           placeholder="API KEY"
-          css={[baseInputCSS, tw`mt-10 mb-2`]}
+          css={[baseInputCSS, tw`mt-4 mb-2`]}
           onChange={e => {
             setAPIKey(e.target.value)
           }}

@@ -46,7 +46,7 @@ const ChatgptLogin = ({}: IChatgptLoginProps) => {
               setShowModal(true)
             }}
           >
-            API key 설정
+            API 키 설정
           </button>
         </div>
 

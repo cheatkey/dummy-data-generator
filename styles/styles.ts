@@ -54,4 +54,21 @@ export const selectDarkStyle: StylesConfig = {
     ...styles,
     borderRadius: '15px',
   }),
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: tailwindColor.dark[700],
+    }
+  },
+  multiValueLabel: (styles, { data }) => ({
+    ...styles,
+    color: tailwindColor.gray[100],
+  }),
+  multiValueRemove: (styles, { data }) => ({
+    ...styles,
+    color: tailwindColor.red[600],
+    ':hover': { color: tailwindColor.red[600] },
+  }),
 }
+
+export const checkboxCSS = tw`form-checkbox rounded bg-transparent text-blue-500 outline-none transition-all w-5 h-5`
