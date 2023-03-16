@@ -1,5 +1,5 @@
-import tw from "twin.macro";
-import { descriptionCSS } from "../styles/styles";
+import tw from 'twin.macro'
+import { descriptionCSS } from '../styles/styles'
 
 interface IHeaderProps {}
 
@@ -14,10 +14,10 @@ const Header = ({}: IHeaderProps) => {
         Dummy data Generator
       </h1>
       <p css={[descriptionCSS, tw`text-xl text-gray-100`]}>
-        with chatgpt & faker.js
+        with chatGPT & faker.js
       </p>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

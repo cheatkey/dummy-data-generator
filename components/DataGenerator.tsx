@@ -3,12 +3,13 @@ import { brushImage, databaseIcon } from '../assets/icon'
 import { blockCSS, selectDarkStyle, tailwindColor } from '../styles/styles'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
+import SchemaForm from './SchemaForm/SchemaForm'
 
 interface IDataGeneratorProps {}
 
 const DataGenerator = ({}: IDataGeneratorProps) => {
   return (
-    <section css={[blockCSS, tw`gap-2`]}>
+    <section css={[blockCSS, tw`gap-8`]}>
       <div css={[tw`flex flex-col w-full gap-5 items-center`]}>
         <Image src={databaseIcon} css={[tw`w-16`]} alt={'database logo'} />
         <div css={[tw`relative`]}>
@@ -24,10 +25,7 @@ const DataGenerator = ({}: IDataGeneratorProps) => {
       </div>
 
       <div>
-        <Select
-          styles={selectDarkStyle}
-          options={[{ value: 'test', label: 'test' }]}
-        />
+        <SchemaForm name={'이름'} />
       </div>
     </section>
   )
