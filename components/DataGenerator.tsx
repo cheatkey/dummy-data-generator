@@ -4,10 +4,15 @@ import { blockCSS, selectDarkStyle, tailwindColor } from '../styles/styles'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
 import SchemaForm from './SchemaForm/SchemaForm'
+import useSchemaBlockLength from '../hooks/useSchemaBlockLength'
 
 interface IDataGeneratorProps {}
 
 const DataGenerator = ({}: IDataGeneratorProps) => {
+  const blockLengthList = useSchemaBlockLength()
+
+  console.log(blockLengthList)
+
   return (
     <section css={[blockCSS, tw`gap-8`]}>
       <div css={[tw`flex flex-col w-full gap-5 items-center`]}>
@@ -25,7 +30,9 @@ const DataGenerator = ({}: IDataGeneratorProps) => {
       </div>
 
       <div>
-        <SchemaForm name={'이름'} />
+        {blockLengthList.map((_, index) => (
+          <SchemaForm index={index} />
+        ))}
       </div>
     </section>
   )

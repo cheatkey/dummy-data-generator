@@ -71,4 +71,4 @@ export const selectDarkStyle: StylesConfig = {
   }),
 }
 
-export const checkboxCSS = tw`form-checkbox rounded bg-transparent text-blue-500 outline-none transition-all w-5 h-5`
+export const checkboxCSS = tw`form-checkbox rounded bg-transparent text-blue-500 outline-none transition-all w-5 h-5 border-gray-600`
