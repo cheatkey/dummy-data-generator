@@ -39,7 +39,9 @@ const ApiKeySettingModal = ({}: IApiKeySettingModalProps) => {
           tw`z-10 bg-dark-700 py-6 px-8 rounded-3xl shadow-xl flex flex-col gap-2 relative w-96`,
         ]}
       >
-        <h1 css={[tw`text-gray-100 text-lg font-medium`]}>API key 설정</h1>
+        <h1 css={[tw`text-gray-100 text-lg font-medium`]}>
+          chatgpt API key 설정
+        </h1>
         <Image
           css={[tw`absolute top-6 right-6 cursor-pointer w-5`]}
           src={xIcon}

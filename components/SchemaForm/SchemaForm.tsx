@@ -1,88 +1,91 @@
 import tw from 'twin.macro'
-import { baseInputCSS, checkboxCSS, selectDarkStyle } from '../../styles/styles'
+import {
+  baseInputCSS,
+  checkboxCSS,
+  darkButtonCSS,
+  selectDarkStyle,
+} from '../../styles/styles'
 import Select, { StylesConfig } from 'react-select'
 import { css } from '@emotion/react'
 import MetaDataCheckbox from '../modals/MetaDataCheckbox'
-import { useSchema, useSchemaSelector } from '../../hooks/store/useSchema'
+import {
+  useSchema,
+  useSchemaSelector,
+  BlockType,
+  findSchemaBlock,
+} from '../../hooks/store/useSchema'
 import { shallow } from 'zustand/shallow'
+import DetailSetting from './DetailSetting'
 
-interface ISchemaFormProps {
+export interface ISchemaFormProps {
+  parent?: string[]
   uuid: string
 }
 
-const SchemaForm = ({ uuid }: ISchemaFormProps) => {
+const SchemaForm = ({ uuid, parent }: ISchemaFormProps) => {
   const currentBlock = useSchema(
-    state => state.blocks.find(item => item.uuid === uuid),
+    state =>
+      findSchemaBlock({
+        parent,
+        uuid,
+        blocks: state.blocks,
+      }),
     shallow,
   )
 
-  const {
-    toggleIsArray,
-    toggleIsObject,
-    setKeyName,
-    setDescription,
-    setArrayLength,
-  } = useSchemaSelector()
+  const { setKeyName, setDescription } = useSchemaSelector()
 
   if (!currentBlock) return <></>
 
   return (
     <div css={[tw`flex flex-col gap-2`]}>
-      <div css={[tw`flex justify-between flex-row`]}>
-        <div css={[tw`flex flex-row gap-2 items-center`]}>
+      <div css={[tw`flex gap-4 flex-row`]}>
+        <div css={[tw`flex flex-row gap-4 items-center`]}>
+          <DetailSetting
+            currentBlock={currentBlock}
+            uuid={uuid}
+            parent={parent}
+          />
+
           <input
             placeholder="key name"
             css={[tw`bg-transparent outline-none font-semibold text-lg w-60`]}
             spellCheck={false}
             onChange={event => {
-              setKeyName(uuid, event.target.value)
-            }}
-          />
-        </div>
-
-        <div css={[tw`flex flex-row gap-2`]}>
-          <MetaDataCheckbox
-            name={'isArray'}
-            value={currentBlock.isArray}
-            handleCheckboxClick={() => {
-              toggleIsArray(uuid)
-            }}
-            children={
-              currentBlock.isArray ? (
-                <input
-                  value={currentBlock.arrayLength}
-                  onChange={event => {
-                    const value = Number(event.target.value)
-                    if (Number.isSafeInteger(value)) {
-                      setArrayLength(uuid, value)
-                    }
-                  }}
-                  css={[baseInputCSS, tw`w-16`]}
-                />
-              ) : undefined
-            }
-          />
-          <MetaDataCheckbox
-            name={'isObject'}
-            value={currentBlock.isObject}
-            handleCheckboxClick={() => {
-              toggleIsObject(uuid)
+              setKeyName({ uuid, parent, keyName: event.target.value })
             }}
           />
         </div>
       </div>
 
-      <div css={[tw`flex flex-col gap-2`]}>
-        <div css={[tw`flex flex-row items-center gap-6`]}>
-          <input
-            css={[baseInputCSS, tw`w-full`]}
-            placeholder={'field description'}
-            spellCheck={false}
-            onChange={event => {
-              setDescription(uuid, event.target.value)
-            }}
-          />
-        </div>
+      <div
+        css={[
+          tw`flex flex-col gap-2 pl-8`,
+          currentBlock.isObject && tw`border-l-2 border-solid border-gray-500`,
+        ]}
+      >
+        {currentBlock.isObject ? (
+          <>
+            {currentBlock.children.map(item => (
+              <SchemaForm
+                uuid={item.uuid}
+                key={item.uuid}
+                parent={!!parent ? [...parent, uuid] : [uuid]}
+              />
+            ))}
+          </>
+        ) : (
+          <div css={[tw`flex flex-row items-center gap-6`]}>
+            <input
+              css={[baseInputCSS, tw`w-full`]}
+              placeholder={'field description'}
+              spellCheck={false}
+              onChange={event => {
+                setDescription(uuid, event.target.value)
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

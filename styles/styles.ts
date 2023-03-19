@@ -72,3 +72,5 @@ export const selectDarkStyle: StylesConfig = {
 }
 
 export const checkboxCSS = tw`form-checkbox rounded bg-transparent text-blue-500 outline-none transition-all w-5 h-5 border-gray-600`
+export const darkButtonCSS = tw`bg-dark-800 rounded-xl text-base text-gray-200 hover:text-white hover:bg-dark-900 transition-all`
+export const darkIconWrapperCSS = tw`bg-dark-800 rounded-md hover:bg-dark-900 transition-all p-2 w-9 h-9 cursor-pointer`

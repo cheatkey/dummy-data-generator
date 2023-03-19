@@ -1,16 +1,22 @@
 import tw from 'twin.macro'
 import { brushImage, databaseIcon } from '../assets/icon'
-import { blockCSS, selectDarkStyle, tailwindColor } from '../styles/styles'
+import {
+  blockCSS,
+  darkButtonCSS,
+  selectDarkStyle,
+  tailwindColor,
+} from '../styles/styles'
 import Select, { StylesConfig } from 'react-select'
 import Image from 'next/image'
 import SchemaForm from './SchemaForm/SchemaForm'
 import useSchemaUUIDList from '../hooks/useSchemaUUIDList'
+import { useSchemaSelector } from '../hooks/store/useSchema'
 
 interface IDataGeneratorProps {}
 
 const DataGenerator = ({}: IDataGeneratorProps) => {
   const uuidList = useSchemaUUIDList()
-
+  const { addNewBlock } = useSchemaSelector()
   return (
     <section css={[blockCSS, tw`gap-8`]}>
       <div css={[tw`flex flex-col w-full gap-5 items-center`]}>
@@ -27,10 +33,19 @@ const DataGenerator = ({}: IDataGeneratorProps) => {
         </div>
       </div>
 
-      <div css={tw`flex flex-col gap-4`}>
+      <div css={tw`flex flex-col gap-5`}>
         {uuidList.map(uuid => (
           <SchemaForm key={uuid} uuid={uuid} />
         ))}
+
+        <button
+          css={[darkButtonCSS, tw`mt-4 h-9`]}
+          onClick={() => {
+            addNewBlock()
+          }}
+        >
+          새로운 키 추가
+        </button>
       </div>
     </section>
   )

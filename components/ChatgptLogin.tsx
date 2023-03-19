@@ -1,7 +1,12 @@
 import tw, { css } from 'twin.macro'
 import { chatgptIcon, linkIcon } from '../assets/icon'
 import { useChatgptConfigSelector } from '../hooks/store/useChatgptToken'
-import { baseInputCSS, blockCSS, descriptionCSS } from '../styles/styles'
+import {
+  baseInputCSS,
+  blockCSS,
+  darkButtonCSS,
+  descriptionCSS,
+} from '../styles/styles'
 import Image from 'next/image'
 
 interface IChatgptLoginProps {}
@@ -39,9 +44,7 @@ const ChatgptLogin = ({}: IChatgptLoginProps) => {
           </div>
 
           <button
-            css={[
-              tw`bg-dark-800 mt-4 h-9 rounded-xl text-base text-gray-200 hover:text-white hover:bg-dark-900 transition-all`,
-            ]}
+            css={[darkButtonCSS, tw`mt-4 h-9`]}
             onClick={() => {
               setShowModal(true)
             }}

@@ -17,7 +17,7 @@ const MetaDataCheckbox = ({
   return (
     <div
       css={[
-        tw`border-[1px] border-solid rounded-xl px-4 flex flex-row gap-3 items-center cursor-pointer h-14`,
+        tw`border-[1px] border-solid rounded-xl px-4 flex flex-row gap-3 items-center cursor-pointer h-12`,
         value ? tw`border-blue-400` : tw`border-gray-500`,
       ]}
     >
