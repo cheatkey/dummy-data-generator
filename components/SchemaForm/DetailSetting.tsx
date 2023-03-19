@@ -20,8 +20,13 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
   const [showUI, setShowUI] = useState<boolean>(false)
   const DetailSettingDomRef = useRef<HTMLDivElement>(null)
 
-  const { toggleIsArray, toggleIsObject, setArrayLength, addNewBlock } =
-    useSchemaSelector()
+  const {
+    toggleIsArray,
+    toggleIsObject,
+    setArrayLength,
+    addNewBlock,
+    removeDeleteBlock,
+  } = useSchemaSelector()
 
   useClickAway(DetailSettingDomRef, () => {
     setShowUI(false)
@@ -34,7 +39,7 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
     >
       <div
         onClick={() => {
-          setShowUI(true)
+          setShowUI(value => !value)
         }}
         css={[darkIconWrapperCSS]}
       >
@@ -44,7 +49,7 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
       {showUI && (
         <>
           <MetaDataCheckbox
-            name={'배열로 설정하기'}
+            name={'배열로 지정하기'}
             value={currentBlock.isArray}
             handleCheckboxClick={() => {
               toggleIsArray(uuid, parent)
@@ -59,13 +64,13 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
                       setArrayLength(uuid, value)
                     }
                   }}
-                  css={[baseInputCSS, tw`w-16`]}
+                  css={[baseInputCSS, tw`w-16 h-8`]}
                 />
               ) : undefined
             }
           />
           <MetaDataCheckbox
-            name={'객체로 설정하기'}
+            name={'객체로 지정하기'}
             value={currentBlock.isObject}
             handleCheckboxClick={() => {
               toggleIsObject(uuid, parent)
@@ -73,7 +78,7 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
           />
           {currentBlock.isObject && (
             <button
-              css={[darkButtonCSS, tw`h-12 px-4`]}
+              css={[darkButtonCSS, tw`h-10 px-4`]}
               onClick={() => {
                 addNewBlock(uuid, parent)
               }}
@@ -81,6 +86,15 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
               키 추가
             </button>
           )}
+
+          <button
+            css={[darkButtonCSS, tw`h-10 px-4`]}
+            onClick={() => {
+              removeDeleteBlock(uuid, parent)
+            }}
+          >
+            삭제
+          </button>
         </>
       )}
     </div>

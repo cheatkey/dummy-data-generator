@@ -72,6 +72,23 @@ export const useSchema = create(
           if (block) block.children.push(getInitialBlock())
         })
       },
+      removeDeleteBlock: (uuid: string, parent?: string[]) => {
+        set(state => {
+          if (!parent) {
+            state.blocks = state.blocks.filter(item => item.uuid !== uuid)
+            return
+          }
+
+          const block = findSchemaBlock({
+            uuid,
+            parent,
+            blocks: state.blocks,
+          })
+
+          if (block)
+            block.children = block.children.filter(item => item.uuid !== uuid)
+        })
+      },
       toggleIsArray: (uuid: string, parent?: string[]) => {
         set(state => {
           const block = findSchemaBlock({
