@@ -71,6 +71,8 @@ export const useSchema = create(
 
           if (block) block.children.push(getInitialBlock())
         })
+
+        console.log(get().blocks)
       },
       removeDeleteBlock: (uuid: string, parent?: string[]) => {
         set(state => {
