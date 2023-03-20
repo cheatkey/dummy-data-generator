@@ -49,6 +49,7 @@ const SchemaForm = ({ uuid, parent }: ISchemaFormProps) => {
 
           <input
             placeholder="key name"
+            value={currentBlock.keyName}
             css={[tw`bg-transparent outline-none font-semibold text-lg w-60`]}
             spellCheck={false}
             onChange={event => {
@@ -77,6 +78,7 @@ const SchemaForm = ({ uuid, parent }: ISchemaFormProps) => {
         ) : (
           <div css={[tw`flex flex-row items-center gap-6`]}>
             <input
+              value={currentBlock.description}
               css={[baseInputCSS, tw`w-full`]}
               placeholder={'field description'}
               spellCheck={false}

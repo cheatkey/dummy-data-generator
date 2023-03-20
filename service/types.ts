@@ -3,6 +3,7 @@ export interface IChatgptRequestParameter {
   systemContent: string
   userContent: string
   apiKey: string
+  n: number
 }
 
 export interface IChatgptResponse {

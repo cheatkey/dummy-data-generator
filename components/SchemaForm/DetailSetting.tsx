@@ -25,7 +25,7 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
     toggleIsObject,
     setArrayLength,
     addNewBlock,
-    removeDeleteBlock,
+    removeBlock,
   } = useSchemaSelector()
 
   useClickAway(DetailSettingDomRef, () => {
@@ -90,7 +90,7 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
           <button
             css={[darkButtonCSS, tw`h-10 px-4`]}
             onClick={() => {
-              removeDeleteBlock(uuid, parent)
+              removeBlock(uuid, parent)
             }}
           >
             삭제
