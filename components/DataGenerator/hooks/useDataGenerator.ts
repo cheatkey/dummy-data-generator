@@ -13,6 +13,8 @@ const useDataGenerator = () => {
   const [generatedJson, setGeneratedJson] = useState<object>({})
 
   const handleClickDataGenerateButton = async () => {
+    setIsLoading(true)
+
     const blocks = useSchema.getState().blocks
 
     const gptService = new ChatGPTService(
@@ -22,7 +24,6 @@ const useDataGenerator = () => {
 
     setFlattenBlocks(gptService.flattenBlocks)
 
-    setIsLoading(true)
     const generated = await gptService.generateDummyData()
 
     const uuidMap = generated.reduce<Record<string, string[]>>((acc, cur) => {
@@ -56,9 +57,16 @@ const useDataGenerator = () => {
     }
 
     const generatedJson = blocks.reduce<Record<string, any>>((acc, cur) => {
-      acc[cur.keyName] = searchBlock(cur)
+      acc[cur.keyName] = (() => {
+        if (cur.isArray) {
+          return take(cur.arrayLength).map(() => searchBlock(cur, true))
+        }
+
+        return searchBlock(cur)
+      })()
       return acc
     }, {})
+
     setGeneratedJson(generatedJson)
 
     setIsLoading(false)

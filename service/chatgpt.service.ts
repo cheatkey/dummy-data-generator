@@ -39,8 +39,9 @@ class ChatGPTService {
       n: props.n,
     })
 
-    const content = data.data.choices[0].message.content.replace('\\n', '\n')
-
+    const content = data.data.choices[0].message.content
+    // .replace('\\n', '\n')
+    console.log('content:', content)
     return content.split('\n')
   }
 
@@ -139,7 +140,7 @@ class ChatGPTService {
   private normalizeGeneratedText = (_textList: string[]) => {
     const textList = cloneDeep(_textList)
 
-    const startWithNumber = textList.some(item =>
+    const isStartWithIndex = textList.some(item =>
       this.START_WITH_NUMBER_REGEX.test(item),
     )
     const paddingWithDobuleQuote = textList.some(item =>
@@ -150,7 +151,7 @@ class ChatGPTService {
     )
 
     const normalizedTextList = this.getNormalizeFunctions({
-      startWithNumber,
+      isStartWithIndex,
       paddingWithDobuleQuote,
       paddingWithSingleQuote,
     }).reduce((acc, func) => func(acc), textList)
@@ -171,6 +172,8 @@ class ChatGPTService {
         }),
       ),
     )
+
+    console.log('generatedDummyData:', generatedDummyData)
 
     return zip(this.flattenBlocks, generatedDummyData).map(
       ([blockInfo, generatedDummyData]) => ({

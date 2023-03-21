@@ -58,7 +58,7 @@ const DataGenerator = ({}: IDataGeneratorProps) => {
           <h2 css={[tw`font-medium text-lg text-gray-100 pl-2`]}>
             생성된 데이터
           </h2>
-          <pre css={[tw`bg-dark-900 rounded-2xl p-4`]}>
+          <pre css={[tw`bg-dark-900 rounded-2xl p-4 whitespace-pre-wrap`]}>
             {isLoading ? (
               <div css={[tw`flex flex-col items-center py-10 gap-2`]}>
                 <Image
