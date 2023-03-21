@@ -112,13 +112,13 @@ class ChatGPTService {
   }
 
   private getNormalizeFunctions = (props: {
-    startWithNumber: boolean
+    isStartWithIndex: boolean
     paddingWithDobuleQuote: boolean
     paddingWithSingleQuote: boolean
   }) => {
     const funcs = []
 
-    if (props.startWithNumber)
+    if (props.isStartWithIndex)
       funcs.push((values: string[]) =>
         this.getExtractedTextWithRegex(this.START_WITH_NUMBER_REGEX, values),
       )
