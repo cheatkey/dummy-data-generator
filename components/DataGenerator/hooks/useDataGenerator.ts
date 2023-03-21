@@ -1,13 +1,28 @@
+import { useState } from 'react'
+import { useChatgptConfig } from '../../../hooks/store/useChatgptToken'
 import { BlockType, useSchema } from '../../../hooks/store/useSchema'
-import ChatGPTService from '../../../service/chatgpt.service'
+import ChatGPTService, {
+  FlattenBlocksType,
+} from '../../../service/chatgpt.service'
 
 const take = (n: number) => Array(n).fill(true)
 
 const useDataGenerator = () => {
+  const [flattenBlocks, setFlattenBlocks] = useState<FlattenBlocksType[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [generatedJson, setGeneratedJson] = useState<object>({})
+
   const handleClickDataGenerateButton = async () => {
     const blocks = useSchema.getState().blocks
 
-    const gptService = new ChatGPTService(blocks, '')
+    const gptService = new ChatGPTService(
+      blocks,
+      useChatgptConfig.getState().apiKey ?? '',
+    )
+
+    setFlattenBlocks(gptService.flattenBlocks)
+
+    setIsLoading(true)
     const generated = await gptService.generateDummyData()
 
     const uuidMap = generated.reduce<Record<string, string[]>>((acc, cur) => {
@@ -15,19 +30,19 @@ const useDataGenerator = () => {
       return acc
     }, {})
 
-    const search = (obj: BlockType, valueOnly?: boolean): any => {
+    const searchBlock = (obj: BlockType, valueOnly?: boolean): any => {
       if (obj.isObject) {
-        console.log(obj)
-
         return obj.children.reduce((acc, cur) => {
           if (cur.isArray)
             return {
               ...acc,
-              [cur.keyName]: take(cur.arrayLength).map(() => search(cur, true)),
+              [cur.keyName]: take(cur.arrayLength).map(() =>
+                searchBlock(cur, true),
+              ),
             }
           return {
             ...acc,
-            [cur.keyName]: search(cur, true),
+            [cur.keyName]: searchBlock(cur, true),
           }
         }, {})
       }
@@ -40,16 +55,20 @@ const useDataGenerator = () => {
       }
     }
 
-    console.log(
-      blocks.reduce<Record<string, any>>((acc, cur) => {
-        acc[cur.keyName] = search(cur)
-        return acc
-      }, {}),
-    )
+    const generatedJson = blocks.reduce<Record<string, any>>((acc, cur) => {
+      acc[cur.keyName] = searchBlock(cur)
+      return acc
+    }, {})
+    setGeneratedJson(generatedJson)
+
+    setIsLoading(false)
   }
 
   return {
     handleClickDataGenerateButton,
+    flattenBlocks,
+    generatedJson,
+    isLoading,
   }
 }
 

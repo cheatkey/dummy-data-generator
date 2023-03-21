@@ -4,11 +4,12 @@ import { PROMPT_CONSTANTS } from '../constants'
 import { BlockType } from '../hooks/store/useSchema'
 import chatGPTRepository from './repository/chatgpt.repository'
 
-type FlattenBlocksType = {
+export type FlattenBlocksType = {
   description: string
   uuid: string
   metaData: string
   count: number | undefined
+  keyName: string
 }
 
 class ChatGPTService {
@@ -31,10 +32,6 @@ class ChatGPTService {
     apiKey: string
     n: number
   }) => {
-    return Array(props.n)
-      .fill(true)
-      .map(() => 'hello world')
-
     const data = await chatGPTRepository.getChatgptResponse({
       apiKey: props.apiKey,
       userContent: props.dataDescription,
@@ -70,6 +67,7 @@ class ChatGPTService {
               return {
                 ...innerBlock,
                 count: (() => {
+                  console.log('안녕', block)
                   // 현재 데이터의 생성 수 * (부모 요소의 생성 수 or 부모 요소의 상속 받은 생성 수) 숫자 대로 몇개의 데이터를 생성할지 결정한다.
                   if (block.count) {
                     return (
@@ -85,7 +83,13 @@ class ChatGPTService {
               }
             })
 
-          return block
+          return {
+            ...block,
+            count: (() => {
+              if (block.isArray && block.arrayLength) return block.arrayLength
+              return 1
+            })(),
+          }
         })
         .flat()
 
@@ -102,6 +106,7 @@ class ChatGPTService {
         uuid: block.uuid,
         metaData: block.metaData,
         count: block.count,
+        keyName: block.keyName,
       }))
   }
 
