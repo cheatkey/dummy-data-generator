@@ -14,7 +14,7 @@ import { useSchemaSelector } from '../hooks/store/useSchema'
 
 interface IDataGeneratorProps {}
 
-const DataGenerator = ({}: IDataGeneratorProps) => {
+const DataSchemaForm = ({}: IDataGeneratorProps) => {
   const uuidList = useSchemaUUIDList()
   const { addNewBlock } = useSchemaSelector()
   return (
@@ -51,4 +51,4 @@ const DataGenerator = ({}: IDataGeneratorProps) => {
   )
 }
 
-export default DataGenerator
+export default DataSchemaForm

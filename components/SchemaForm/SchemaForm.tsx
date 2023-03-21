@@ -83,7 +83,7 @@ const SchemaForm = ({ uuid, parent }: ISchemaFormProps) => {
               placeholder={'field description'}
               spellCheck={false}
               onChange={event => {
-                setDescription(uuid, event.target.value)
+                setDescription(uuid, event.target.value, parent)
               }}
             />
           </div>

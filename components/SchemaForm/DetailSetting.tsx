@@ -61,7 +61,7 @@ const DetailSetting = ({ currentBlock, uuid, parent }: IDetailSettingProps) => {
                   onChange={event => {
                     const value = Number(event.target.value)
                     if (Number.isSafeInteger(value)) {
-                      setArrayLength(uuid, value)
+                      setArrayLength(uuid, value, parent)
                     }
                   }}
                   css={[baseInputCSS, tw`w-16 h-8`]}
